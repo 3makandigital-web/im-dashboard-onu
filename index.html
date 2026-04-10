@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ONU IM Dashboard | Soungalo Traoré</title>
+
+<!-- CHART -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- MAP (Leaflet = style QGIS web) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0a1020;
+    color: white;
+}
+
+/* LOGIN */
+#login {
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: #020617;
+}
+
+.login-box {
+    background: #111827;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+input {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 200px;
+}
+
+button {
+    padding: 10px 20px;
+    background: #38bdf8;
+    border: none;
+    cursor: pointer;
+}
+
+/* DASHBOARD */
+#dashboard {
+    display: none;
+}
+
+/* HEADER */
+header {
+    background: linear-gradient(90deg, #0ea5e9, #1e40af);
+    padding: 20px;
+    text-align: center;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.card {
+    background: #111827;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* MAP */
+#map {
+    height: 400px;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+/* CV */
+.cv-box {
+    margin: 20px;
+    padding: 20px;
+    background: #111827;
+    border-radius: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN SYSTEM -->
+<div id="login">
+    <div class="login-box">
+        <h2>🔐 ONU IM Dashboard</h2>
+        <input type="text" id="user" placeholder="Username">
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p style="color:gray;">Demo : admin / 1234</p>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+
+<header>
+<h1>🌍 Humanitarian Data Dashboard</h1>
+<p>Soungalo Traoré | IM Specialist</p>
+</header>
+
+<!-- KPI -->
+<div class="grid">
+<div class="card"><h2>98%</h2><p>Data Quality</p></div>
+<div class="card"><h2>5000+</h2><p>Records</p></div>
+<div class="card"><h2>12+</h2><p>Projects</p></div>
+</div>
+
+<!-- MAP -->
+<div id="map"></div>
+
+<!-- CHART -->
+<div class="grid">
+<div class="card"><canvas id="chart1"></canvas></div>
+<div class="card"><canvas id="chart2"></canvas></div>
+</div>
+
+<!-- CV -->
+<div class="cv-box">
+<h2>📄 CV Professionnel</h2>
+<p>Technicien IM spécialisé en données humanitaires.</p>
+<a href="cv.pdf" target="_blank">Ouvrir CV</a>
+</div>
+
+</div>
+
+<script>
+
+/* LOGIN */
+function login(){
+    let u = document.getElementById("user").value;
+    let p = document.getElementById("pass").value;
+
+    if(u === "admin" && p === "1234"){
+        document.getElementById("login").style.display = "none";
+        document.getElementById("dashboard").style.display = "block";
+    } else {
+        alert("Accès refusé");
+    }
+}
+
+/* MAP (QGIS STYLE) */
+var map = L.map('map').setView([12.65, -8.0], 6);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+L.marker([12.65, -8.0]).addTo(map)
+    .bindPopup("Bamako - Data Hub")
+    .openPopup();
+
+/* CHARTS */
+new Chart(document.getElementById('chart1'), {
+    type: 'bar',
+    data: {
+        labels: ['Kobo','Python','SQL','Power BI'],
+        datasets: [{
+            data: [90,85,80,88],
+            backgroundColor: '#38bdf8'
+        }]
+    }
+});
+
+new Chart(document.getElementById('chart2'), {
+    type: 'line',
+    data: {
+        labels: ['2022','2023','2024','2025'],
+        datasets: [{
+            data: [1,3,6,12],
+            borderColor: '#0ea5e9'
+        }]
+    }
+});
+
+</script>
+
+</body>
+</html>
